@@ -5,6 +5,16 @@ namespace InscripcionDeEstudiantes
 {
     class Program
     {
+
+        public enum OpcionesMenuPrincipal
+        {
+            MANTENIMIENTO_ESTUDIANTES = 1,
+            MANTENIMIENTO_MATERIAS,
+            INSCRIBIR,
+            LISTAR_INSCRIPCIONES,
+            SALIR,
+
+        }
         private struct Inscripcion
         {
             public string NombreEstudiante { get; set; }
@@ -23,6 +33,7 @@ namespace InscripcionDeEstudiantes
         private static List<string> Materias = new List<string>();
 
         private static List<Inscripcion> Inscripciones = new List<Inscripcion>();
+        
 
         private static List<string> MateriasSeleccionada = new List<string>();
         static void Main(string[] args)
@@ -38,23 +49,28 @@ namespace InscripcionDeEstudiantes
 
             switch (menu)
             {
-                case 1:
+                case (int)OpcionesMenuPrincipal.MANTENIMIENTO_ESTUDIANTES:
                     MenuEstudiantes();
                     break;
-                case 2:
+                case (int)OpcionesMenuPrincipal.MANTENIMIENTO_MATERIAS:
                     MenuMaterias();
                     break;
-                case 3:
+                case (int)OpcionesMenuPrincipal.INSCRIBIR:
                     InscribirMaterias();
                     Menu();
                     break;
-                case 4:
+                case (int)OpcionesMenuPrincipal.LISTAR_INSCRIPCIONES:
                     ListarInscripciones(Inscripciones);
                     Menu();
                     break;
-                case 5:
+                case (int)OpcionesMenuPrincipal.SALIR:
                     Console.WriteLine("Gracias por usar nuestro sistema");
                     Console.ReadKey();
+                    break;
+                default:
+                    Console.WriteLine("Esta opcion no es valida");
+                    Console.ReadKey();
+                    Menu();
                     break;
             }
 
@@ -67,7 +83,7 @@ namespace InscripcionDeEstudiantes
                 Console.WriteLine("Listado de estudiantes");
 
                 MateriasSeleccionada = new List<string>();
-                List(Estudiantes, false);
+                List(Estudiantes);
 
                 Console.Write("Seleccione el estudiante que desea inscribir ");
                 int index = Convert.ToInt32(Console.ReadLine());
@@ -102,7 +118,7 @@ namespace InscripcionDeEstudiantes
             if (Materias.Count > 0)
             {
                 Console.WriteLine("\n Listado de materias");
-                List(Materias, false);
+                List(Materias);
 
                 Console.Write("Seleccione la materia que desea inscribir ");
                 int indexMateria = Convert.ToInt32(Console.ReadLine());
@@ -197,36 +213,49 @@ namespace InscripcionDeEstudiantes
 
         private static void FormularioDeEditarEstudiante()
         {
-            Console.WriteLine("Listado de estudiantes");
+            try
+            {
 
-            List(Estudiantes, false);
+                Console.WriteLine("Listado de estudiantes");
 
-            Console.Write("Seleccione el estudiante que desea editar ");
-            int index = Convert.ToInt32(Console.ReadLine());
+                List(Estudiantes);
 
-            Console.WriteLine("Introduzca nuevo valor del nombre del estudiante");
-            string nombre = Console.ReadLine();
+                Console.Write("Seleccione el estudiante que desea editar ");
+                int index = Convert.ToInt32(Console.ReadLine());
 
-            Edit(Estudiantes, (index - 1), nombre);
+                Console.WriteLine("Introduzca nuevo valor del nombre del estudiante");
+                string nombre = Console.ReadLine();
 
-            MenuEstudiantes();
+                Edit(Estudiantes, (index - 1), nombre);
+
+                MenuEstudiantes();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Ha ocurrido un error " + ex.Message);
+                Console.ReadKey();
+                MenuEstudiantes();
+            }
         }
 
         private static void FormularioDeEliminarEstudiante()
         {
+            
+                Console.WriteLine("Listado de estudiantes");
 
-            Console.WriteLine("Listado de estudiantes");
+                List(Estudiantes);
 
-            List(Estudiantes, false);
-
-            Console.Write("Seleccione el estudiante que desea eliminar ");
+                Console.Write("Seleccione el estudiante que desea eliminar ");
 
 
-            int index = Convert.ToInt32(Console.ReadLine());
+                int index = Convert.ToInt32(Console.ReadLine());
 
-            Delete(Estudiantes, (index - 1));
+                Delete(Estudiantes, (index - 1));
 
-            MenuEstudiantes();
+                MenuEstudiantes();
+            
+          
+            
         }
 
         private static void MenuMaterias()
@@ -273,7 +302,7 @@ namespace InscripcionDeEstudiantes
         {
             Console.WriteLine("Listado de materias");
 
-            List(Materias, false);
+            List(Materias);
 
             Console.Write("Seleccione la materia que desea editar ");
             int index = Convert.ToInt32(Console.ReadLine());
@@ -291,7 +320,7 @@ namespace InscripcionDeEstudiantes
 
             Console.WriteLine("Listado de materias");
 
-            List(Materias, false);
+            List(Materias);
 
             Console.Write("Seleccione la materia que desea eliminar ");
 
@@ -318,11 +347,13 @@ namespace InscripcionDeEstudiantes
             listado[index] = value;
         }
 
-        private static void Delete<T>(List<T> listado, int index)
+        private static void Delete<T>(List<T> listado, int? index)
         {
-            listado.RemoveAt(index);
+            int indice = index ?? 0;
+
+            listado.RemoveAt(indice);
         }
-        private static void List<T>(List<T> listado, bool IsWait)
+        private static void List<T>(List<T> listado, bool IsWait = false)
         {
             int contador = 1;
             foreach (T item in listado)

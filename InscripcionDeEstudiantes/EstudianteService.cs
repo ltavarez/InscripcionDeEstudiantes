@@ -9,6 +9,9 @@ namespace InscripcionDeEstudiantes
 
         private static BaseService baseService = new BaseService();
 
+        private const string EstudiantesDirectory = "Estudiantes";
+        private const string EstudiantesFilename = "estudiantes.dat";
+
         public static void MenuEstudiantes(ref List<string> Estudiantes)
         {
             Console.Clear();
@@ -43,7 +46,7 @@ namespace InscripcionDeEstudiantes
             Console.WriteLine("Introduzca el nombre del estudiante");
             string nombre = Console.ReadLine();
 
-            baseService.Add(Estudiantes, nombre);
+            baseService.Add(Estudiantes, nombre,EstudiantesDirectory,EstudiantesFilename);
 
             MenuEstudiantes(ref Estudiantes);
         }
@@ -63,7 +66,7 @@ namespace InscripcionDeEstudiantes
                 Console.WriteLine("Introduzca nuevo valor del nombre del estudiante");
                 string nombre = Console.ReadLine();
 
-                baseService.Edit(Estudiantes, (index - 1), nombre);
+                baseService.Edit(Estudiantes, (index - 1), nombre,EstudiantesDirectory,EstudiantesFilename);
 
                 MenuEstudiantes(ref Estudiantes);
             }
@@ -87,7 +90,7 @@ namespace InscripcionDeEstudiantes
 
             int index = Convert.ToInt32(Console.ReadLine());
 
-            baseService.Delete(Estudiantes, (index - 1));
+            baseService.Delete(Estudiantes, (index - 1),EstudiantesDirectory,EstudiantesFilename);
 
             MenuEstudiantes(ref Estudiantes);
 

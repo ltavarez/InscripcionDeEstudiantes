@@ -8,6 +8,9 @@ namespace InscripcionDeEstudiantes
     {
 
         private static BaseService baseService = new BaseService();
+
+        private const string MateriasDirectory = "Materias";
+        private const string MateriasFilename = "materias.dat";
         public static void MenuMaterias(ref List<string> Materias)
         {
 
@@ -43,7 +46,7 @@ namespace InscripcionDeEstudiantes
             Console.WriteLine("Introduzca el nombre de la materia");
             string nombre = Console.ReadLine();
 
-            baseService.Add(Materias, nombre);
+            baseService.Add(Materias, nombre,MateriasDirectory,MateriasFilename);
 
             MenuMaterias(ref Materias);
         }
@@ -60,7 +63,7 @@ namespace InscripcionDeEstudiantes
             Console.WriteLine("Introduzca nuevo valor del nombre de la materia");
             string nombre = Console.ReadLine();
 
-            baseService.Edit(Materias, (index - 1), nombre);
+            baseService.Edit(Materias, (index - 1), nombre,MateriasDirectory,MateriasFilename);
 
             MenuMaterias(ref Materias);
         }
@@ -77,7 +80,7 @@ namespace InscripcionDeEstudiantes
 
             int index = Convert.ToInt32(Console.ReadLine());
 
-            baseService.Delete(Materias, (index - 1));
+            baseService.Delete(Materias, (index - 1),MateriasDirectory,MateriasFilename);
 
             MenuMaterias(ref Materias);
         }

@@ -4,6 +4,7 @@ using System.Text;
 
 namespace InscripcionDeEstudiantes
 {
+    [Serializable]
     class Inscripcion
     {
         public string NombreEstudiante { get; set; }

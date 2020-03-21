@@ -10,6 +10,9 @@ namespace InscripcionDeEstudiantes
 
         private static readonly BaseService baseService = new BaseService();
 
+        private const string InscripcionesDirectory = "Inscripciones";
+        private const string InscripcionesFilename = "inscripciones.dat";
+
         public void InscribirMaterias(List<string> Estudiantes,List<string> Materias,ref List<Inscripcion> Inscripciones)
         {
             if (Estudiantes.Count > 0)
@@ -34,7 +37,7 @@ namespace InscripcionDeEstudiantes
                 else
                 {
                     Inscripcion inscripcion = new Inscripcion(nombreEstudiante, MateriasSeleccionada);
-                    baseService.Add(Inscripciones, inscripcion);
+                    baseService.Add(Inscripciones, inscripcion,InscripcionesDirectory,InscripcionesFilename);
                 }
             }
             else

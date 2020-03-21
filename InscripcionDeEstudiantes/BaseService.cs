@@ -6,9 +6,12 @@ namespace InscripcionDeEstudiantes
 {
     class BaseService
     {
-        public void Add<T>(List<T> listado, T item)
+
+        private static readonly SerializationService serializationService = new SerializationService();
+        public void Add<T>(List<T> listado, T item,string directory,string filename)
         {
             listado.Add(item);
+            serializationService.Serialize(listado, directory, filename);
         }
 
         public string GetElement<T>(List<T> listado, int index)
@@ -16,16 +19,18 @@ namespace InscripcionDeEstudiantes
             return listado[index].ToString();
         }
 
-        public  void Edit<T>(List<T> listado, int index, T value)
+        public  void Edit<T>(List<T> listado, int index, T value, string directory, string filename)
         {
             listado[index] = value;
+            serializationService.Serialize(listado, directory, filename);
         }
 
-        public  void Delete<T>(List<T> listado, int? index)
+        public  void Delete<T>(List<T> listado, int? index, string directory, string filename)
         {
             int indice = index ?? 0;
 
             listado.RemoveAt(indice);
+            serializationService.Serialize(listado, directory, filename);
         }
         public  void List<T>(List<T> listado, bool IsWait = false)
         {
